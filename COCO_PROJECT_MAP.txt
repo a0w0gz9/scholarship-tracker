@@ -40,7 +40,44 @@ COMMON UPDATES:
   - Update design/colors → Edit the CSS in HTML
 
 ===============================================================
-PROJECT 2: [FUTURE DASHBOARD - TO BE ADDED]
+PROJECT 2: COLLEGE WISHLIST (Olivia's Registry)
+===============================================================
+
+PURPOSE:
+  College wishlist/registry where friends/family can claim items for Olivia
+
+LOCATION ON MAC:
+  /Users/a0w0gz9/Desktop/Code Puppy/College_Wishlist/
+
+FILES TO EDIT:
+  - index.html (main wishlist page)
+  - Faces/ (folder with slideshow photos)
+  - Buildings/ (folder with background photos)
+
+LIVE URL:
+  https://a0w0gz9.github.io/college-wishlist/
+
+GITHUB REPO:
+  https://github.com/a0w0gz9/college-wishlist
+
+GIT PUSH COMMAND:
+  cd "/Users/a0w0gz9/Desktop/Code Puppy/College_Wishlist" && git add . && git commit -m "[UPDATE MESSAGE]" && git push
+
+ADMIN PASSWORD:
+  Wolverine2026
+
+COMMON UPDATES:
+  - Add items to wishlist → Edit wishlistData in index.html
+  - Change colors/theme → Edit CSS in index.html
+  - Add more photos → Put in Faces/ or Buildings/ folders
+  - Update prices/descriptions → Edit wishlistData in index.html
+
+FIREBASE SETUP NEEDED:
+  ⚠️ This project uses Firebase for real-time sync
+  Instructions in COLLEGE_WISHLIST_SETUP.txt
+
+===============================================================
+PROJECT 3: [FUTURE DASHBOARD - TO BE ADDED]
 ===============================================================
 
 When you create more dashboards, add them here!
