@@ -1,0 +1,130 @@
+===============================================================
+               COCO'S PROJECT REFERENCE MAP
+         All Dashboards & Where They Live (2025)
+===============================================================
+
+HEY COCO! WHEN ALI ASKS YOU TO UPDATE SOMETHING,
+USE THIS FILE TO KNOW EXACTLY WHAT TO DO.
+
+===============================================================
+PROJECT 1: SCHOLARSHIP DASHBOARD (Olivia's Tracker)
+===============================================================
+
+PURPOSE:
+  Olivia's scholarship application tracker with guides, PDFs, and tracker link
+
+LOCATION ON MAC:
+  /Users/a0w0gz9/Desktop/Code Puppy/Personal/
+
+FILES TO EDIT:
+  - scholarship-tracker.html (main dashboard)
+  - Any PDFs in this folder
+  - Scholarship_Tracker.xlsx (tracker spreadsheet)
+
+LIVE URL:
+  https://a0w0gz9.github.io/scholarship-tracker/scholarship-tracker.html
+
+GITHUB REPO:
+  https://github.com/a0w0gz9/scholarship-tracker
+
+GIT PUSH COMMAND:
+  cd "/Users/a0w0gz9/Desktop/Code Puppy/Personal" && git add . && git commit -m "[UPDATE MESSAGE]" && git push
+
+GOOGLE SHEET LINK:
+  https://docs.google.com/spreadsheets/d/1PW-urbcox4AwsTtUUr-VeXu4FCZCZjSu/edit?usp=sharing
+
+COMMON UPDATES:
+  - Update scholarship info/deadlines → Edit scholarship-tracker.html
+  - Add/replace PDF → Put file in folder, update links in HTML
+  - Change Google Sheet link → Edit the link in HTML
+  - Update design/colors → Edit the CSS in HTML
+
+===============================================================
+PROJECT 2: [FUTURE DASHBOARD - TO BE ADDED]
+===============================================================
+
+When you create more dashboards, add them here!
+
+TEMPLATE:
+  NAME: [Dashboard Name]
+  LOCATION: [File path]
+  LIVE URL: [URL]
+  GITHUB REPO: [Repo link]
+  GIT COMMAND: [Command to push]
+  FILES: [What to edit]
+
+===============================================================
+QUICK REFERENCE FOR COCO:
+===============================================================
+
+WHEN ALI SAYS:
+  "Update the scholarship dashboard..."
+
+THEN COCO DOES:
+  1. Edit: /Users/a0w0gz9/Desktop/Code Puppy/Personal/scholarship-tracker.html
+  2. Push: cd "/Users/a0w0gz9/Desktop/Code Puppy/Personal" && git add . && git commit -m "Update" && git push
+  3. Wait: 1-2 minutes for GitHub Pages to update
+  4. Confirm: Changes live at https://a0w0gz9.github.io/scholarship-tracker/scholarship-tracker.html
+
+===============================================================
+WHEN ALI SAYS:
+  "Update the [OTHER DASHBOARD]..."
+
+THEN COCO DOES:
+  1. Look up [OTHER DASHBOARD] in this file
+  2. Get the file location
+  3. Get the git push command
+  4. Edit, push, confirm
+
+===============================================================
+IMPORTANT RULES:
+===============================================================
+
+✓ ALWAYS use the git push command for that specific project
+✓ NEVER push changes to the wrong GitHub repo
+✓ ALWAYS ask "which dashboard?" if unclear
+✓ ALWAYS reference this file before making changes
+✓ ALWAYS confirm the live URL after pushing
+
+===============================================================
+HOW TO ADD A NEW DASHBOARD:
+===============================================================
+
+When Ali creates a new project:
+  1. Ali tells Coco: "I created a new dashboard at [path]"
+  2. Coco asks for:
+     - Project name
+     - GitHub repo URL
+     - Live URL
+     - What file to edit
+  3. Coco adds it to this file
+  4. Coco pushes this file to the main GitHub repo (if applicable)
+  5. Future updates use the correct path & repo
+
+===============================================================
+EXAMPLE UPDATE COMMAND:
+===============================================================
+
+Ali says:
+  "Update the scholarship dashboard - change the SWE deadline to 3/15/2025"
+
+Coco does:
+  1. Opens: /Users/a0w0gz9/Desktop/Code Puppy/Personal/scholarship-tracker.html
+  2. Finds: SWE deadline (2/28/2025)
+  3. Changes to: 3/15/2025
+  4. Runs: cd "/Users/a0w0gz9/Desktop/Code Puppy/Personal" && git add . && git commit -m "Update SWE deadline to 3/15/2025" && git push
+  5. Confirms: https://a0w0gz9.github.io/scholarship-tracker/scholarship-tracker.html shows the change
+
+===============================================================
+NOTES:
+===============================================================
+
+- This file should be updated whenever a new dashboard is created
+- Store this file in multiple places (Google Drive, GitHub) for safety
+- Review this file before EVERY update request
+- If unsure, ASK ALI WHICH DASHBOARD
+
+===============================================================
+LAST UPDATED: 2025-12-28
+COCO VERSION: 1.0
+===============================================================
