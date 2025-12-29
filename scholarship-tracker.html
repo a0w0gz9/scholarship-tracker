@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Merit Scholarships for Engineering - Application Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        engineering: '#00274C',
+                        gold: '#FFCB05'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .checkbox-custom {
+            cursor: pointer;
+        }
+        .scholarship-card {
+            transition: all 0.3s ease;
+        }
+        .scholarship-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .priority-badge {
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .completed {
+            opacity: 0.6;
+        }
+        .completed .scholarship-title {
+            text-decoration: line-through;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+        }
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 0;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .modal-header {
+            background-color: #00274C;
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #FFCB05;
+        }
+        .modal-close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .modal-close:hover {
+            color: #FFCB05;
+        }
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6b7280;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            color: #00274C;
+            border-bottom-color: #FFCB05;
+        }
+        .tab-button:hover {
+            color: #00274C;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+            
+            header {
+                padding: 1.5rem 1rem !important;
+            }
+            
+            header h1 {
+                font-size: 1.75rem !important;
+            }
+            
+            header p {
+                font-size: 1rem !important;
+            }
+            
+            main, section {
+                padding: 1rem !important;
+            }
+            
+            .scholarship-card {
+                padding: 1rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .scholarship-card h3 {
+                font-size: 1.1rem !important;
+            }
+            
+            .scholarship-card h4 {
+                font-size: 0.95rem !important;
+                margin-top: 0.75rem !important;
+            }
+            
+            /* Modal improvements for mobile */
+            .modal-content {
+                width: 95% !important;
+                max-height: 95vh !important;
+                max-width: 100% !important;
+            }
+            
+            .modal-header {
+                padding: 1rem !important;
+            }
+            
+            .modal-header h2 {
+                font-size: 1.25rem !important;
+            }
+            
+            .modal-body {
+                padding: 1rem !important;
+                font-size: 0.95rem !important;
+            }
+            
+            /* Button improvements */
+            button, a[class*="bg-"] {
+                padding: 0.75rem 1rem !important;
+                font-size: 0.95rem !important;
+                min-height: 44px !important; /* Apple recommended touch target */
+            }
+            
+            /* Tab styling for mobile */
+            .tabs {
+                flex-wrap: wrap;
+                gap: 0.5rem !important;
+            }
+            
+            .tab-button {
+                padding: 0.5rem 0.75rem !important;
+                font-size: 0.85rem !important;
+            }
+            
+            /* Grid adjustments */
+            .grid {
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem !important;
+            }
+            
+            /* Profile summary on mobile */
+            .grid-cols-1 {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Flex adjustments */
+            .flex-wrap {
+                flex-wrap: wrap;
+            }
+            
+            /* Action plan cards */
+            .md\:grid-cols-3 {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5rem !important;
+            }
+            
+            header p {
+                font-size: 0.9rem !important;
+            }
+            
+            .scholarship-card {
+                padding: 0.75rem !important;
+            }
+            
+            .scholarship-card h3 {
+                font-size: 1rem !important;
+            }
+            
+            .priority-badge {
+                font-size: 0.65rem !important;
+                padding: 0.3rem 0.5rem !important;
+            }
+            
+            button {
+                font-size: 0.85rem !important;
+                padding: 0.6rem 0.8rem !important;
+            }
+            
+            .modal-header h2 {
+                font-size: 1.1rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-engineering text-white py-8 shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-2">Merit Scholarship Application Tracker</h1>
+            <p class="text-gold text-lg">University of Michigan College of Engineering</p>
+            <p class="text-gray-200 mt-3">Accepted + Ready to Earn Merit Aid</p>
+        </div>
+    </header>
+
+    <!-- Profile Summary -->
+    <section class="bg-white border-b border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 py-6">
+            <h2 class="text-2xl font-bold text-engineering mb-4">Your Competitive Profile</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                    <p class="text-gray-600 text-sm font-semibold">SAT (Superscore)</p>
+                    <p class="text-2xl font-bold text-blue-600 mt-2">1500</p>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                    <p class="text-gray-600 text-sm font-semibold">Weighted GPA</p>
+                    <p class="text-2xl font-bold text-green-600 mt-2">~4.65</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                    <p class="text-gray-600 text-sm font-semibold">AP Achievement</p>
+                    <p class="text-2xl font-bold text-purple-600 mt-2">Scholar+</p>
+                </div>
+                <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500">
+                    <p class="text-gray-600 text-sm font-semibold">Unique Assets</p>
+                    <p class="text-sm font-bold text-yellow-700 mt-2">• Jewish<br>• UM Legacy<br>• Engineering</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start Guide -->
+    <section class="bg-gold bg-opacity-10 border-l-4 border-gold">
+        <div class="max-w-6xl mx-auto px-4 py-6">
+            <h2 class="text-xl font-bold text-engineering mb-4">✅ Before You Apply</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-engineering rounded" id="item1">
+                    <label for="item1" class="text-sm cursor-pointer">
+                        <strong>One-page resume</strong> <a href="#" onclick="openModal('resumeModal'); return false;" class="text-blue-600 hover:underline">(see examples)</a>
+                    </label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-engineering rounded" id="item2">
+                    <label for="item2" class="text-sm cursor-pointer">
+                        <strong>Transcript PDF</strong> (official copy from UM or high school)
+                    </label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-engineering rounded" id="item3">
+                    <label for="item3" class="text-sm cursor-pointer">
+                        <strong>2 Recommendation contacts</strong> <a href="#" onclick="openModal('lorModal'); return false;" class="text-blue-600 hover:underline">(see templates)</a>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <!-- Timeline Legend -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-engineering mb-4">Application Timeline</h2>
+            <div class="flex flex-wrap gap-4">
+                <div class="flex items-center gap-2">
+                    <span class="inline-block w-3 h-3 bg-red-500 rounded-full"></span>
+                    <span class="text-sm font-semibold">URGENT (This Month)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="inline-block w-3 h-3 bg-orange-500 rounded-full"></span>
+                    <span class="text-sm font-semibold">Soon (Next 4-8 weeks)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="inline-block w-3 h-3 bg-blue-500 rounded-full"></span>
+                    <span class="text-sm font-semibold">Spring Cycle (Jan-Mar)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+                    <span class="text-sm font-semibold">Open / Rolling</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scholarships by Priority -->
+        <div class="space-y-6">
+            <!-- TIER 1: HIGHEST ROI -->
+            <section>
+                <h2 class="text-2xl font-bold text-engineering mb-4 flex items-center gap-2">
+                    <span class="text-3xl">🔥</span> TIER 1: Highest ROI (Start Here)
+                </h2>
+
+                <!-- SWE Scholarships -->
+                <div class="scholarship-card bg-white rounded-lg shadow-md p-6 mb-4 border-l-4 border-red-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold text-engineering scholarship-title">Society of Women Engineers (SWE) Scholarships</h3>
+                            <p class="text-sm text-gray-600">Largest engineering scholarship program for women</p>
+                        </div>
+                        <span class="priority-badge bg-red-100 text-red-700">URGENT</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">💰 Award Amount</h4>
+                            <p class="text-lg font-bold text-green-600">$1,000 - $10,000+</p>
+                            <p class="text-xs text-gray-500 mt-1">(Varies by scholarship; many are renewable)</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">📅 Deadline</h4>
+                            <p class="text-lg font-bold text-red-600">Late February / Early March 2025</p>
+                            <p class="text-xs text-gray-500 mt-1">(Check SWE site for exact dates)</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded mt-4 border border-blue-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">✅ What You Need to Apply</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ Online SWE scholarship application</li>
+                            <li>✓ Resume (one page)</li>
+                            <li>✓ Transcript (high school or college)</li>
+                            <li>✓ 2 letters of recommendation</li>
+                            <li>✓ Short essays (typically 2-3 essays, 250-500 words each)</li>
+                            <li>✓ GPA requirement: typically 3.5+ (you exceed this ✓)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-purple-50 p-4 rounded mt-4 border border-purple-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">🎯 Why You're a Strong Fit</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ 1500 SAT (excellent merit metric)</li>
+                            <li>✓ 4.65 weighted GPA (top tier)</li>
+                            <li>✓ AP Scholar with Distinction (leadership + rigor)</li>
+                            <li>✓ Heavy STEM AP schedule (exactly what SWE values)</li>
+                            <li>✓ Enrolled at U-M CoE (prestigious program SWE recognizes)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 flex gap-3 flex-wrap">
+                        <a href="https://swe.org/apply-for-a-swe-scholarship/" target="_blank" class="inline-block bg-engineering hover:bg-engineering/90 text-white font-semibold py-2 px-4 rounded transition">
+                            Visit SWE Scholarships →
+                        </a>
+                        <button onclick="openModal('sweModal')" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition">
+                            📋 Deep Dive (Steps & Timeline)
+                        </button>
+                        <button onclick="openModal('essayModal')" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded transition">
+                            ✍️ Essay Tips & Samples
+                        </button>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="w-5 h-5 text-engineering rounded">
+                            <span class="text-sm font-semibold text-gray-700">Mark as Applied</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- U-M CoE Merit Scholarships -->
+                <div class="scholarship-card bg-white rounded-lg shadow-md p-6 mb-4 border-l-4 border-orange-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold text-engineering scholarship-title">University of Michigan College of Engineering Merit Scholarships</h3>
+                            <p class="text-sm text-gray-600">Automatic consideration + Named Awards (Class of '31E, etc.)</p>
+                        </div>
+                        <span class="priority-badge bg-orange-100 text-orange-700">SOON</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">💰 Award Amount</h4>
+                            <p class="text-lg font-bold text-green-600">$5,000 - $25,000+ annually</p>
+                            <p class="text-xs text-gray-500 mt-1">(Named scholarships can be $10k-50k+)</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">📅 Timeline</h4>
+                            <p class="text-lg font-bold text-orange-600">Post-Admission (Now)</p>
+                            <p class="text-xs text-gray-500 mt-1">Contact CoE Scholarships office immediately</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded mt-4 border border-blue-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">✅ What You Need to Do</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ <strong>Email NOW:</strong> CoE Scholarships Office (scholarships@engin.umich.edu)</li>
+                            <li>✓ Subject: "Scholarship Consideration - AP Scholar + U-M Legacy"</li>
+                            <li>✓ Mention: 1500 SAT, AP Scholar with Distinction, ~4.65 GPA, parent is U-M alum</li>
+                            <li>✓ Ask: "Are there named scholarships I should apply for? What's the process?"</li>
+                            <li>✓ Request any scholarship application forms or essays</li>
+                            <li>✓ Watch for emails about merit scholarship opportunities</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded mt-4 border border-green-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">🎯 Your Advantages</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ <strong>Accepted to U-M CoE</strong> = Automatic merit consideration</li>
+                            <li>✓ <strong>U-M Legacy</strong> = Eligible for alumni-funded scholarships</li>
+                            <li>✓ Your stats will likely qualify for top-tier CoE merit awards</li>
+                            <li>✓ Named scholarships (Class of '31E, etc.) may require essays or nomination</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 flex gap-3 flex-wrap">
+                        <a href="https://www.engin.umich.edu/admissions-aid/scholarships-funding/" target="_blank" class="inline-block bg-engineering hover:bg-engineering/90 text-white font-semibold py-2 px-4 rounded transition">
+                            U-M CoE Scholarships →
+                        </a>
+                        <button onclick="copyToClipboard('scholarships@engin.umich.edu')" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition">
+                            📧 Copy Email Address
+                        </button>
+                        <button onclick="openModal('umcoeModal')" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition">
+                            📋 What to Write in Email
+                        </button>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="w-5 h-5 text-engineering rounded">
+                            <span class="text-sm font-semibold text-gray-700">Mark as Applied</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Jewish Community Foundation -->
+                <div class="scholarship-card bg-white rounded-lg shadow-md p-6 mb-4 border-l-4 border-blue-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold text-engineering scholarship-title">Jewish Community Foundation (JCF) Scholarships</h3>
+                            <p class="text-sm text-gray-600">Local NJ merit scholarships with lower competition</p>
+                        </div>
+                        <span class="priority-badge bg-blue-100 text-blue-700">SPRING CYCLE</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">💰 Award Amount</h4>
+                            <p class="text-lg font-bold text-green-600">$500 - $5,000+</p>
+                            <p class="text-xs text-gray-500 mt-1">(Varies by named fund; some larger awards available)</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">📅 Deadline</h4>
+                            <p class="text-lg font-bold text-blue-600">Late February / Early March 2025</p>
+                            <p class="text-xs text-gray-500 mt-1">($500 per scholarship, but apply to multiple funds)</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded mt-4 border border-blue-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">✅ What You Need to Apply</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ Visit JCF Greater MetroWest NJ scholarship portal</li>
+                            <li>✓ Short essay (typically 250-500 words per fund)</li>
+                            <li>✓ Transcript</li>
+                            <li>✓ Resume</li>
+                            <li>✓ For most funds: Just being Jewish + excellent academics qualifies</li>
+                            <li>✓ Some funds ask: "Community involvement" or "Jewish identity" (your acceptance counts)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded mt-4 border border-yellow-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">💡 Why This Is High ROI</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ <strong>Much lower competition</strong> vs. national scholarships</li>
+                            <li>✓ Local judges know your community/profile</li>
+                            <li>✓ Can apply to <strong>multiple named funds</strong> in same application cycle</li>
+                            <li>✓ Fast turnaround (Feb-Mar deadline, awards announced spring)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 flex gap-3 flex-wrap">
+                        <a href="https://www.jcfsnj.org/scholarships" target="_blank" class="inline-block bg-engineering hover:bg-engineering/90 text-white font-semibold py-2 px-4 rounded transition">
+                            JCF Scholarships Portal →
+                        </a>
+                        <button onclick="openModal('jcfModal')" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition">
+                            📋 How to Navigate JCF
+                        </button>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="w-5 h-5 text-engineering rounded">
+                            <span class="text-sm font-semibold text-gray-700">Mark as Applied</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TIER 2: STRONG MATCHES -->
+            <section class="mt-12">
+                <h2 class="text-2xl font-bold text-engineering mb-4 flex items-center gap-2">
+                    <span class="text-3xl">⭐</span> TIER 2: Strong Matches
+                </h2>
+
+                <!-- SAE Foundation -->
+                <div class="scholarship-card bg-white rounded-lg shadow-md p-6 mb-4 border-l-4 border-green-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold text-engineering scholarship-title">SAE Foundation / SAE International Scholarships</h3>
+                            <p class="text-sm text-gray-600">Engineering scholarships for automotive/aerospace/mobility focus</p>
+                        </div>
+                        <span class="priority-badge bg-green-100 text-green-700">SPRING</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">💰 Award Amount</h4>
+                            <p class="text-lg font-bold text-green-600">$1,000 - $5,000+</p>
+                            <p class="text-xs text-gray-500 mt-1">(Multiple scholarships with different amounts)</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">📅 Deadline</h4>
+                            <p class="text-lg font-bold text-green-600">Varies (typically spring 2025)</p>
+                            <p class="text-xs text-gray-500 mt-1">Check SAE site for individual deadlines</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded mt-4 border border-blue-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">✅ What You Need to Apply</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ Visit SAE scholarships page (varies by individual scholarship)</li>
+                            <li>✓ Resume</li>
+                            <li>✓ Transcript</li>
+                            <li>✓ Essay/personal statement (varies by scholarship)</li>
+                            <li>✓ 1-2 letters of recommendation</li>
+                            <li>✓ Some may require GPA ~3.0+ (you exceed this ✓)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded mt-4 border border-green-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">🎯 Best For</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ If interested in automotive/aerospace engineering</li>
+                            <li>✓ If have experience with SAE competitions or clubs</li>
+                            <li>✓ Generally merit-based; your AP rigor is strong</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 flex gap-3 flex-wrap">
+                        <a href="https://www.sae.org/scholarships" target="_blank" class="inline-block bg-engineering hover:bg-engineering/90 text-white font-semibold py-2 px-4 rounded transition">
+                            SAE Scholarships →
+                        </a>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="w-5 h-5 text-engineering rounded">
+                            <span class="text-sm font-semibold text-gray-700">Mark as Applied</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- NSPE -->
+                <div class="scholarship-card bg-white rounded-lg shadow-md p-6 mb-4 border-l-4 border-blue-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold text-engineering scholarship-title">NSPE Education Foundation Scholarships</h3>
+                            <p class="text-sm text-gray-600">National Society of Professional Engineers merit awards</p>
+                        </div>
+                        <span class="priority-badge bg-blue-100 text-blue-700">SPRING</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">💰 Award Amount</h4>
+                            <p class="text-lg font-bold text-green-600">$500 - $2,000+</p>
+                            <p class="text-xs text-gray-500 mt-1">(Multiple scholarships available)</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">📅 Deadline</h4>
+                            <p class="text-lg font-bold text-blue-600">April 2025</p>
+                            <p class="text-xs text-gray-500 mt-1">Typically mid-to-late April</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded mt-4 border border-blue-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">✅ What You Need to Apply</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ NSPE scholarship application (online)</li>
+                            <li>✓ Transcript</li>
+                            <li>✓ Resume</li>
+                            <li>✓ Essay (typically 500 words or less)</li>
+                            <li>✓ Letter of recommendation (usually 1)</li>
+                            <li>✓ Some scholarships require NSPE membership (low cost, optional)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 flex gap-3 flex-wrap">
+                        <a href="https://www.nspe.org/career-growth/scholarships" target="_blank" class="inline-block bg-engineering hover:bg-engineering/90 text-white font-semibold py-2 px-4 rounded transition">
+                            NSPE Scholarships →
+                        </a>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="w-5 h-5 text-engineering rounded">
+                            <span class="text-sm font-semibold text-gray-700">Mark as Applied</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- U-M Alumni Legacy -->
+                <div class="scholarship-card bg-white rounded-lg shadow-md p-6 mb-4 border-l-4 border-purple-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold text-engineering scholarship-title">U-M Alumni Association / Alumnae Council Scholarships</h3>
+                            <p class="text-sm text-gray-600">Alumni-funded scholarships + legacy awards</p>
+                        </div>
+                        <span class="priority-badge bg-purple-100 text-purple-700">ROLLING</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">💰 Award Amount</h4>
+                            <p class="text-lg font-bold text-green-600">$500 - $3,000+</p>
+                            <p class="text-xs text-gray-500 mt-1">(Varies by alumni fund)</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">📅 Timeline</h4>
+                            <p class="text-lg font-bold text-purple-600">Rolling / Post-Admission</p>
+                            <p class="text-xs text-gray-500 mt-1">Check Alumni site for deadlines</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded mt-4 border border-blue-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">✅ What You Need to Apply</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ Visit U-M Alumni Association scholarship page</li>
+                            <li>✓ Varies by individual fund (typically essay + transcript)</li>
+                            <li>✓ Proof of U-M enrollment (confirmation letter)</li>
+                            <li>✓ Parent's alumnus status documentation (can request from your parent)</li>
+                            <li>✓ Some funds are merit-only, some are merit + legacy-based</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-purple-50 p-4 rounded mt-4 border border-purple-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">🎯 Your Advantage</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ Parent is U-M graduate = U-M legacy eligibility</li>
+                            <li>✓ Many alumni funds welcome children of alumni</li>
+                            <li>✓ Combine legacy + merit = strong application</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 flex gap-3 flex-wrap">
+                        <a href="https://alumni.umich.edu/scholarships/" target="_blank" class="inline-block bg-engineering hover:bg-engineering/90 text-white font-semibold py-2 px-4 rounded transition">
+                            U-M Alumni Scholarships →
+                        </a>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="w-5 h-5 text-engineering rounded">
+                            <span class="text-sm font-semibold text-gray-700">Mark as Applied</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TIER 3: CONDITIONAL / SPECIALIZED -->
+            <section class="mt-12">
+                <h2 class="text-2xl font-bold text-engineering mb-4 flex items-center gap-2">
+                    <span class="text-3xl">🎯</span> TIER 3: Conditional / If You Have Them
+                </h2>
+
+                <!-- Davidson Fellows -->
+                <div class="scholarship-card bg-white rounded-lg shadow-md p-6 mb-4 border-l-4 border-yellow-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold text-engineering scholarship-title">Davidson Fellows Scholarship</h3>
+                            <p class="text-sm text-gray-600">High awards for exceptional STEM projects/research</p>
+                        </div>
+                        <span class="priority-badge bg-yellow-100 text-yellow-700">IF APPLICABLE</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">💰 Award Amount</h4>
+                            <p class="text-lg font-bold text-green-600">$10,000 - $50,000+</p>
+                            <p class="text-xs text-gray-500 mt-1">(Extremely competitive but high payoff)</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">📅 Deadline</h4>
+                            <p class="text-lg font-bold text-yellow-600">February 2025</p>
+                            <p class="text-xs text-gray-500 mt-1">Early deadline; requires substantial work</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded mt-4 border border-yellow-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">⚠️ Only Apply If...</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ You have a <strong>substantial STEM project</strong> (competition, research, hackathon, invention)</li>
+                            <li>✓ You have <strong>documentation</strong> of the project (paper, video, code, patent, etc.)</li>
+                            <li>✓ You're willing to spend time on a comprehensive submission</li>
+                            <li>✓ <strong>Don't force it</strong> unless you have a real project to show</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded mt-4 border border-blue-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">✅ What You Need (If You Have Project)</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ Project documentation (research paper, code repository, video demo, etc.)</li>
+                            <li>✓ Written explanation of your work (1-2 pages)</li>
+                            <li>✓ Evidence of impact / achievement</li>
+                            <li>✓ Judges' evaluation form</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 flex gap-3 flex-wrap">
+                        <a href="https://studentscholarships.org/scholarship/8804/davidson-fellows-scholarships" target="_blank" class="inline-block bg-engineering hover:bg-engineering/90 text-white font-semibold py-2 px-4 rounded transition">
+                            Davidson Fellows →
+                        </a>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="w-5 h-5 text-engineering rounded">
+                            <span class="text-sm font-semibold text-gray-700">Mark as Applied</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Local Community Scholarships -->
+                <div class="scholarship-card bg-white rounded-lg shadow-md p-6 mb-4 border-l-4 border-indigo-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold text-engineering scholarship-title">Local Jewish / Community Scholarships</h3>
+                            <p class="text-sm text-gray-600">Synagogues, federations, and local organizations</p>
+                        </div>
+                        <span class="priority-badge bg-indigo-100 text-indigo-700">CHECK LOCALLY</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">💰 Award Amount</h4>
+                            <p class="text-lg font-bold text-green-600">$200 - $2,000</p>
+                            <p class="text-xs text-gray-500 mt-1">(Small but high ROI locally)</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">📅 Deadline</h4>
+                            <p class="text-lg font-bold text-indigo-600">Varies</p>
+                            <p class="text-xs text-gray-500 mt-1">Usually Feb-Mar or rolling</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-indigo-50 p-4 rounded mt-4 border border-indigo-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">✅ Where to Look</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>✓ Your family's synagogue (ask rabbi or education board)</li>
+                            <li>✓ Local Jewish Federation (Jewish Federation of Greater MetroWest NJ)</li>
+                            <li>✓ Local Jewish Community Center (JCC)</li>
+                            <li>✓ Hillel chapters at U-M</li>
+                            <li>✓ Ask your parents if they know of any!</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="w-5 h-5 text-engineering rounded">
+                            <span class="text-sm font-semibold text-gray-700">Ask parents + check locally</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Action Plan -->
+    <section class="bg-engineering text-white py-12 mt-12">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-6">📋 Your Action Plan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg border border-gold">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span>🚀</span> THIS MONTH
+                    </h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>✓ <a href="#" onclick="openModal('resumeModal'); return false;" class="hover:text-gold hover:underline">Finalize resume (one page)</a></li>
+                        <li>✓ Get transcript PDF</li>
+                        <li>✓ <a href="#" onclick="openModal('lorModal'); return false;" class="hover:text-gold hover:underline">Identify 2 recommendation contacts</a></li>
+                        <li>✓ Email U-M CoE scholarships office</li>
+                        <li>✓ Start SWE essays</li>
+                    </ul>
+                </div>
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg border border-gold">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span>⚡</span> JANUARY-MARCH
+                    </h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>✓ <strong>Submit SWE</strong> (Feb deadline)</li>
+                        <li>✓ <strong>Apply JCF</strong> (Feb-Mar deadline)</li>
+                        <li>✓ Apply SAE scholarships</li>
+                        <li>✓ Check U-M Alumni site</li>
+                        <li>✓ Ask parents about local scholarships</li>
+                    </ul>
+                </div>
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg border border-gold">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span>🎯</span> APRIL +
+                    </h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>✓ Apply NSPE (April deadline)</li>
+                        <li>✓ Monitor for U-M CoE awards</li>
+                        <li>✓ Track application status</li>
+                        <li>✓ Watch for scholarship notifications</li>
+                        <li>✓ Start planning for next year's cycles</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center text-sm">
+            <p>✨ You've got this! Remember: Merit scholarships = free money based on YOUR achievements. Apply early, apply often, apply everywhere you're a strong fit. 🐕</p>
+            <p class="mt-3 text-gray-500">Last updated: December 28, 2024 | Print this page or bookmark it for easy reference</p>
+            <p class="mt-4 text-xs text-gray-600">💾 <strong>Your progress is automatically saved!</strong> All checkmarks persist in your browser. | <button onclick="clearAllProgress()" class="text-gray-400 hover:text-gray-200 underline">Reset Progress</button></p>
+        </div>
+    </footer>
+
+    <!-- ============= MODALS START HERE ============= -->
+
+    <!-- Resume Modal -->
+    <div id="resumeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📄 Building Your Engineering Resume</h2>
+                <span class="modal-close" onclick="closeModal('resumeModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="tabs">
+                    <button class="tab-button active" onclick="openTab(event, 'resumeFormat')">Format & Structure</button>
+                    <button class="tab-button" onclick="openTab(event, 'resumeExample')">Example Resume</button>
+                    <button class="tab-button" onclick="openTab(event, 'resumeTips')">Writing Tips</button>
+                </div>
+
+                <div id="resumeFormat" class="tab-content active">
+                    <h3 class="text-xl font-bold text-engineering mb-4">One-Page Resume Structure</h3>
+                    <p class="mb-4">For a high school student applying to scholarships, your resume should fit on ONE page. Here's the layout:</p>
+                    
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-engineering bg-gray-50 p-4">
+                            <h4 class="font-bold text-engineering mb-2">Header (3 lines)</h4>
+                            <p class="text-sm text-gray-700">Your Name | Phone | Email | City, State</p>
+                            <p class="text-xs text-gray-600 mt-2">Example: Jane Doe | (555) 123-4567 | jane@email.com | Summit, NJ</p>
+                        </div>
+
+                        <div class="border-l-4 border-green-600 bg-gray-50 p-4">
+                            <h4 class="font-bold text-green-700 mb-2">📚 EDUCATION</h4>
+                            <p class="text-sm text-gray-700"><strong>Your High School Name</strong>, City, State | Graduation: June 2025</p>
+                            <p class="text-sm text-gray-700 mt-1">Cumulative GPA: X.XX (Weighted: 4.65) | SAT: 1500</p>
+                            <p class="text-sm text-gray-700 mt-1">AP Scholar with Distinction • 6+ AP Courses (Calc, Physics, CS, etc.)</p>
+                        </div>
+
+                        <div class="border-l-4 border-blue-600 bg-gray-50 p-4">
+                            <h4 class="font-bold text-blue-700 mb-2">🎯 RELEVANT COURSEWORK & SKILLS</h4>
+                            <p class="text-sm text-gray-700"><strong>Math:</strong> AP Calculus AB/BC, AP Statistics</p>
+                            <p class="text-sm text-gray-700 mt-1"><strong>Science:</strong> AP Physics C, AP Chemistry, AP Biology</p>
+                            <p class="text-sm text-gray-700 mt-1"><strong>CS:</strong> AP Computer Science Principles/A (if taken)</p>
+                            <p class="text-sm text-gray-700 mt-1"><strong>Technical Skills:</strong> Java, Python, Excel, MATLAB (list what you know)</p>
+                        </div>
+
+                        <div class="border-l-4 border-purple-600 bg-gray-50 p-4">
+                            <h4 class="font-bold text-purple-700 mb-2">🏆 LEADERSHIP & INVOLVEMENT (3-5 bullets)</h4>
+                            <p class="text-sm text-gray-700">• President, Math Club (2024-2025)</p>
+                            <p class="text-sm text-gray-700">• Volunteer, Local STEM Outreach Program (50+ hours)</p>
+                            <p class="text-sm text-gray-700">• Team Member, Science Olympiad (State Finalist in Engineering)</p>
+                            <p class="text-sm text-gray-700">• Hackathon Participant (AngelHacks 2024, Built app for X)</p>
+                        </div>
+
+                        <div class="border-l-4 border-yellow-600 bg-gray-50 p-4">
+                            <h4 class="font-bold text-yellow-700 mb-2">🌟 HONORS & AWARDS</h4>
+                            <p class="text-sm text-gray-700">• AP Scholar with Distinction (2025)</p>
+                            <p class="text-sm text-gray-700">• National Merit Commended Scholar (if applicable)</p>
+                            <p class="text-sm text-gray-700">• Science Olympiad State Medal (if applicable)</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border border-yellow-300 p-4 rounded mt-6">
+                        <h4 class="font-bold text-yellow-800 mb-2">✅ Pro Tips</h4>
+                        <ul class="text-sm text-gray-700 space-y-1">
+                            <li>✓ <strong>Use 0.75-1" margins</strong> and 10-11pt font to fit ONE page</li>
+                            <li>✓ <strong>Lead with numbers:</strong> "3x PR in Science Olympiad score" instead of "improved in Science Olympiad"</li>
+                            <li>✓ <strong>Highlight STEM-specific:</strong> For engineering scholarships, emphasize math, science, CS</li>
+                            <li>✓ <strong>Action verbs:</strong> Led, Built, Designed, Created, Improved, Achieved</li>
+                            <li>✓ <strong>No objective statement</strong> needed for scholarships (wastes space)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="resumeExample" class="tab-content">
+                    <h3 class="text-xl font-bold text-engineering mb-4">Sample Engineering Resume</h3>
+                    <div class="bg-gray-100 p-6 rounded border border-gray-400 text-sm font-mono whitespace-pre-wrap">
+                        <div class="text-center mb-4">
+                            <strong>Jane Doe</strong><br>
+                            (555) 123-4567 | jane.doe@email.com | Summit, NJ
+                        </div>
+
+                        <div class="mb-3">
+                            <strong>EDUCATION</strong><br>
+                            <strong>Summit High School</strong>, Summit, NJ | Graduation: June 2025<br>
+                            Cumulative GPA: 3.98 (Weighted: 4.65) | SAT: 1500<br>
+                            AP Scholar with Distinction • 6 AP Courses: Calculus BC, Physics C, Chemistry, Biology, Computer Science A, Statistics
+                        </div>
+
+                        <div class="mb-3">
+                            <strong>RELEVANT SKILLS</strong><br>
+                            <strong>Programming:</strong> Java, Python, C++<br>
+                            <strong>Engineering Tools:</strong> MATLAB, Excel (advanced), AutoCAD basics<br>
+                            <strong>Mathematics:</strong> Calculus, Linear Algebra, Statistics
+                        </div>
+
+                        <div class="mb-3">
+                            <strong>LEADERSHIP & INVOLVEMENT</strong><br>
+                            • <strong>President, Science Club</strong> (2024-2025) – Led 40-member club, organized 3 campus-wide STEM events for 200+ students<br>
+                            • <strong>Science Olympiad Captain</strong> (2023-2024) – Advanced to State Finals; ranked top 10 nationally in Engineering event<br>
+                            • <strong>Hackathon Competitor</strong> (2024) – Built weather prediction app in Python; placed 2nd in Sustainability category<br>
+                            • <strong>STEM Tutor</strong> (2023-2025) – Mentored 15+ freshmen in Algebra and Geometry; 90% improved by 1+ grade
+                        </div>
+
+                        <div>
+                            <strong>HONORS & AWARDS</strong><br>
+                            • AP Scholar with Distinction (2025)<br>
+                            • Science Olympiad State Medal – Engineering (2024)<br>
+                            • National Merit Commended Scholar (2024)
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-600 mt-4">This is a simplified example. Add/remove sections based on YOUR experiences.</p>
+                </div>
+
+                <div id="resumeTips" class="tab-content">
+                    <h3 class="text-xl font-bold text-engineering mb-4">Writing Tips for Engineering Scholarships</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-green-600 bg-green-50 p-4 rounded">
+                            <h4 class="font-bold text-green-700 mb-2">✅ DO This</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>✓ Emphasize <strong>STEM coursework</strong> – AP Calc, Physics, CS, Chemistry</li>
+                                <li>✓ Show <strong>leadership in STEM clubs</strong> – Science Olympiad, Math Club, Robotics, Hackathons</li>
+                                <li>✓ Highlight <strong>projects & competitions</strong> – Science fairs, hackathons, engineering contests</li>
+                                <li>✓ Quantify achievements – "Top 10 statewide" vs "did well"</li>
+                                <li>✓ Mention <strong>SAT/AP scores</strong> in Education section (they matter for merit scholarships!)</li>
+                                <li>✓ Use <strong>active verbs</strong>: designed, built, created, led, achieved, improved</li>
+                            </ul>
+                        </div>
+
+                        <div class="border-l-4 border-red-600 bg-red-50 p-4 rounded">
+                            <h4 class="font-bold text-red-700 mb-2">❌ DON'T Do This</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>✗ List sports/arts unless they're exceptional (space is limited)</li>
+                                <li>✗ Include "Objective" statement (wastes space)</li>
+                                <li>✗ Use passive language: "responsible for" vs "led"</li>
+                                <li>✗ Go over ONE page (scholarship reviewers skip it)</li>
+                                <li>✗ Use fancy fonts or colors (stick to black text, clean layout)</li>
+                                <li>✗ List every club – focus on depth, not breadth</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 border border-blue-300 p-4 rounded mt-4">
+                        <h4 class="font-bold text-blue-800 mb-2">📌 FOR ENGINEERING-SPECIFIC SCHOLARSHIPS</h4>
+                        <p class="text-sm text-gray-700 mb-2">Engineering scholarships LOVE seeing:</p>
+                        <ul class="text-sm text-gray-700 space-y-1">
+                            <li>• <strong>Hard skills:</strong> Programming languages, CAD, MATLAB</li>
+                            <li>• <strong>Competitions:</strong> Science Olympiad, FIRST Robotics, hackathons</li>
+                            <li>• <strong>Projects:</strong> "Built X" or "Designed Y" with measurable impact</li>
+                            <li>• <strong>STEM rigor:</strong> AP Scholar status, high SAT math score</li>
+                            <li>• <strong>Future-focused:</strong> Your goals in engineering field</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Letter of Recommendation Modal -->
+    <div id="lorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📝 Letter of Recommendation Guide</h2>
+                <span class="modal-close" onclick="closeModal('lorModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="tabs">
+                    <button class="tab-button active" onclick="openTab(event, 'lorWho')">Who to Ask</button>
+                    <button class="tab-button" onclick="openTab(event, 'lorHow')">How to Ask</button>
+                    <button class="tab-button" onclick="openTab(event, 'lorTemplate')">Sample Template</button>
+                    <button class="tab-button" onclick="openTab(event, 'lorTips')">Tips for Recommenders</button>
+                </div>
+
+                <div id="lorWho" class="tab-content active">
+                    <h3 class="text-xl font-bold text-engineering mb-4">Who Should Write Your Letters?</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-green-600 bg-green-50 p-4 rounded">
+                            <h4 class="font-bold text-green-700 mb-2">✅ BEST CHOICES for Engineering Scholarships</h4>
+                            <ul class="text-sm text-gray-700 space-y-2">
+                                <li><strong>Math Teacher (AP Calculus, Pre-Calculus)</strong><br>
+                                    → Can speak to your analytical thinking & problem-solving</li>
+                                <li><strong>Science Teacher (Physics, Chemistry, AP Bio)</strong><br>
+                                    → Can speak to lab skills, rigor, & STEM aptitude</li>
+                                <li><strong>Computer Science Teacher</strong><br>
+                                    → Can speak to coding ability & technical thinking (HIGHLY valued)</li>
+                                <li><strong>Science Olympiad Coach or STEM Club Advisor</strong><br>
+                                    → Can speak to your leadership & passion for engineering</li>
+                            </ul>
+                        </div>
+
+                        <div class="border-l-4 border-yellow-600 bg-yellow-50 p-4 rounded">
+                            <h4 class="font-bold text-yellow-700 mb-2">⚠️ LESS IDEAL (but acceptable if necessary)</h4>
+                            <ul class="text-sm text-gray-700 space-y-2">
+                                <li>History/English teacher (shows breadth, but less aligned with engineering)</li>
+                                <li>Sports coach (shows discipline & teamwork, but not technical skills)</li>
+                                <li>Employer/supervisor (shows work ethic, but personal connection matters less)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-red-50 border border-red-300 p-4 rounded mt-4">
+                            <h4 class="font-bold text-red-800 mb-2">❌ AVOID</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>✗ Parent or family friend (perceived as biased)</li>
+                                <li>✗ Someone who doesn't know you well (letter won't be strong)</li>
+                                <li>✗ Peer/classmate (not appropriate for scholarships)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="lorHow" class="tab-content">
+                    <h3 class="text-xl font-bold text-engineering mb-4">How to Ask for a Letter</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-blue-600 bg-blue-50 p-4 rounded">
+                            <h4 class="font-bold text-blue-700 mb-2">Step 1: Ask in Person (Face-to-Face)</h4>
+                            <p class="text-sm text-gray-700">Don't email first! Ask during office hours or after class.</p>
+                            <p class="text-sm text-gray-700 mt-2"><strong>What to say:</strong></p>
+                            <p class="text-sm italic text-gray-700">"Mr./Ms. [Name], I'm applying for engineering scholarships for U-M, and I'd like to ask if you'd be willing to write a letter of recommendation for me. I really valued your [class/club], and I think your perspective would strengthen my application."</p>
+                        </div>
+
+                        <div class="border-l-4 border-green-600 bg-green-50 p-4 rounded">
+                            <h4 class="font-bold text-green-700 mb-2">Step 2: Give Them Time</h4>
+                            <p class="text-sm text-gray-700">✓ Ask at least <strong>2-3 weeks</strong> before the deadline</p>
+                            <p class="text-sm text-gray-700">✓ Mention your deadline: "The application is due February 28th"</p>
+                            <p class="text-sm text-gray-700">✓ If they say yes, say thank you immediately</p>
+                        </div>
+
+                        <div class="border-l-4 border-purple-600 bg-purple-50 p-4 rounded">
+                            <h4 class="font-bold text-purple-700 mb-2">Step 3: Provide Them With INFO</h4>
+                            <p class="text-sm text-gray-700 font-semibold">Send an email with:</p>
+                            <ul class="text-sm text-gray-700 space-y-1 mt-2">
+                                <li>✓ Your resume (updated)</li>
+                                <li>✓ List of scholarships you're applying for (with deadlines)</li>
+                                <li>✓ Scholarship submission link or form</li>
+                                <li>✓ A reminder of your key achievements in their class</li>
+                                <li>✓ Your contact info & the deadlines again</li>
+                            </ul>
+                        </div>
+
+                        <div class="border-l-4 border-yellow-600 bg-yellow-50 p-4 rounded">
+                            <h4 class="font-bold text-yellow-700 mb-2">Step 4: Follow Up</h4>
+                            <p class="text-sm text-gray-700">✓ One week before deadline: "Hi Mr./Ms. [Name], just checking in. The SWE scholarship deadline is Feb 28. Let me know if you need anything!"</p>
+                            <p class="text-sm text-gray-700 mt-2">✓ After they submit: "Thank you so much for the letter! I really appreciate your support."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="lorTemplate" class="tab-content">
+                    <h3 class="text-xl font-bold text-engineering mb-4">Sample Template to Share With Your Recommender</h3>
+                    <p class="text-sm text-gray-700 mb-4"><em>You can send this as guidance to help them structure their letter:</em></p>
+                    
+                    <div class="bg-gray-100 p-6 rounded border border-gray-400 text-sm font-mono space-y-3">
+                        <p><strong>Dear [Scholarship Committee],</strong></p>
+                        
+                        <p><strong>PARAGRAPH 1: YOUR RELATIONSHIP</strong><br>
+                        "I have known [Student Name] for [X years] as their teacher in [AP Calculus/Physics/CS]. I have observed her growth as a student and a thinker in my classroom, and I am pleased to recommend her for your scholarship."</p>
+                        
+                        <p><strong>PARAGRAPH 2: ACADEMIC STRENGTHS</strong><br>
+                        "[Student] demonstrates exceptional mastery of [subject]. In particular, she excels at [specific skill like problem-solving, analytical thinking, coding]. On our AP exam, she scored [X], placing her in the top [%] of students nationally. Her [specific project or assignment] showcased her ability to [apply concepts/solve complex problems]."</p>
+                        
+                        <p><strong>PARAGRAPH 3: LEADERSHIP / CHARACTER</strong><br>
+                        "Beyond academics, [Student] shows outstanding character. She [led the Science Olympiad team/tutored classmates/organized a STEM event]. She approaches challenges with curiosity and perseverance. Her peers respect her collaborative approach to problem-solving."</p>
+                        
+                        <p><strong>PARAGRAPH 4: ENGINEERING FIT</strong><br>
+                        "[Student] is an excellent fit for an engineering program. She possesses the analytical rigor, technical foundation, and intellectual curiosity necessary to succeed. I am confident she will make meaningful contributions to your institution."</p>
+                        
+                        <p><strong>PARAGRAPH 5: CLOSING</strong><br>
+                        "I enthusiastically recommend [Student] for your scholarship. Please contact me if you have any questions. Sincerely, [Teacher Name]"</p>
+                    </div>
+
+                    <div class="bg-blue-50 border border-blue-300 p-4 rounded mt-4">
+                        <p class="text-xs text-blue-800">This is just a template. Real letters should be personalized and specific to YOU!</p>
+                    </div>
+                </div>
+
+                <div id="lorTips" class="tab-content">
+                    <h3 class="text-xl font-bold text-engineering mb-4">Tips to Help Your Recommenders Write Strong Letters</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-green-600 bg-green-50 p-4 rounded">
+                            <h4 class="font-bold text-green-700 mb-2">ℹ️ When You Email Them With Info, Include:</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li><strong>"Key Points You Might Mention":</strong></li>
+                                <li>• My 1500 SAT and strong performance in your [class]</li>
+                                <li>• Leadership in [specific project or club]</li>
+                                <li>• My passion for engineering / problem-solving mindset</li>
+                                <li>• Specific examples: "When I worked on [X project], I showed..."</li>
+                            </ul>
+                        </div>
+
+                        <div class="border-l-4 border-purple-600 bg-purple-50 p-4 rounded">
+                            <h4 class="font-bold text-purple-700 mb-2">📋 Create a "Letter of Rec Info Sheet"</h4>
+                            <p class="text-sm text-gray-700 font-semibold">Send them this (adapt as needed):</p>
+                            <div class="bg-white p-3 rounded mt-2 text-xs font-mono">
+Scholarship Name: SWE Merit Scholarship<br>
+Deadline: February 28, 2025<br>
+Submission: Online link [paste link]<br>
+<br>
+Key facts about me for your letter:<br>
+• SAT: 1500 | GPA: 4.65<br>
+• AP Scholar with Distinction<br>
+• President of Science Club (2024-25)<br>
+• Science Olympiad State Finalist<br>
+• Excited about U-M Engineering<br>
+<br>
+Thank you so much!<br>
+contact: [your email]
+                            </div>
+                        </div>
+
+                        <div class="border-l-4 border-yellow-600 bg-yellow-50 p-4 rounded">
+                            <h4 class="font-bold text-yellow-700 mb-2">✉️ Sample Email to Send Recommender</h4>
+                            <div class="bg-white p-3 rounded mt-2 text-xs">
+                                <p className="mb-2"><strong>Subject: Letter of Recommendation Request – SWE & Other Engineering Scholarships</strong></p>
+                                <p className="mb-2">Hi Mr./Ms. [Name],</p>
+                                <p className="mb-2">Thank you again for agreeing to write a letter of recommendation for me. I've attached:</p>
+                                <p className="mb-2">• My resume<br>• List of scholarships & deadlines<br>• Key points you might mention</p>
+                                <p className="mb-2">The first deadline is SWE scholarships (due February 28). Let me know if you need anything else from me!</p>
+                                <p>Thanks so much!<br>[Your Name]</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SWE Deep Dive Modal -->
+    <div id="sweModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔥 SWE Scholarships: Deep Dive</h2>
+                <span class="modal-close" onclick="closeModal('sweModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="tabs">
+                    <button class="tab-button active" onclick="openTab(event, 'sweTimeline')">Timeline & Deadlines</button>
+                    <button class="tab-button" onclick="openTab(event, 'sweSteps')">Step-by-Step Guide</button>
+                    <button class="tab-button" onclick="openTab(event, 'sweSpecific')">Specific Scholarships</button>
+                </div>
+
+                <div id="sweTimeline" class="tab-content active">
+                    <h3 class="text-xl font-bold text-engineering mb-4">SWE Scholarship Timeline</h3>
+                    
+                    <div class="space-y-3">
+                        <div class="flex gap-4">
+                            <div class="bg-red-100 text-red-800 px-3 py-2 rounded font-bold text-sm">NOW - JAN 15</div>
+                            <div>
+                                <p className="font-bold">✅ Prepare Your Materials</p>
+                                <ul className="text-sm text-gray-700 mt-1 space-y-1">
+                                    <li>• Finalize resume (one page, STEM-focused)</li>
+                                    <li>• Get transcript PDF from school</li>
+                                    <li>• Request 2 letters of recommendation</li>
+                                    <li>• Proof-read everything!</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-4">
+                            <div className="bg-orange-100 text-orange-800 px-3 py-2 rounded font-bold text-sm">JAN 15-25</div>
+                            <div>
+                                <p className="font-bold">📝 Create Your SWE Account & Draft Essays</p>
+                                <ul className="text-sm text-gray-700 mt-1 space-y-1">
+                                    <li>• Register on SWE website (swe.org)</li>
+                                    <li>• Complete profile section</li>
+                                    <li>• START DRAFTING your essays (you'll have 2-3 prompts)</li>
+                                    <li>• Typical essay length: 250-500 words each</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-4">
+                            <div className="bg-blue-100 text-blue-800 px-3 py-2 rounded font-bold text-sm">JAN 26 - FEB 20</div>
+                            <div>
+                                <p className="font-bold">✍️ Write & Polish Essays</p>
+                                <ul className="text-sm text-gray-700 mt-1 space-y-1">
+                                    <li>• Write draft of all essays</li>
+                                    <li>• Have parent/teacher review (NOT do it for you)</li>
+                                    <li>• Focus on YOUR unique story & passion</li>
+                                    <li>• Polish for grammar, clarity, impact</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-4">
+                            <div className="bg-red-100 text-red-800 px-3 py-2 rounded font-bold text-sm">FEB 21-28</div>
+                            <div>
+                                <p className="font-bold">🚀 SUBMIT!</p>
+                                <ul className="text-sm text-gray-700 mt-1 space-y-1">
+                                    <li>• Finalize all essays & supporting materials</li>
+                                    <li>• Make sure your recommenders have submitted letters</li>
+                                    <li>• Submit on SWE portal BEFORE 11:59 PM PT on Feb 28</li>
+                                    <li>• Screenshot confirmation that you submitted!</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-4">
+                            <div className="bg-green-100 text-green-800 px-3 py-2 rounded font-bold text-sm">MARCH-APRIL</div>
+                            <div>
+                                <p className="font-bold">⏳ Wait & Celebrate</p>
+                                <ul className="text-sm text-gray-700 mt-1 space-y-1">
+                                    <li>• Awards announced typically in April</li>
+                                    <li>• Winners notified via email</li>
+                                    <li>• In the meantime, apply to other scholarships!</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sweSteps" class="tab-content">
+                    <h3 class="text-xl font-bold text-engineering mb-4">Step-by-Step Application Guide</h3>
+                    
+                    <div class="space-y-4">
+                        <div className="border-l-4 border-engineering bg-gray-50 p-4 rounded">
+                            <h4 className="font-bold text-engineering mb-2">STEP 1: Go to swe.org/apply-for-a-swe-scholarship</h4>
+                            <ul className="text-sm text-gray-700 space-y-1">
+                                <li>• Scroll down to "Scholarship Applications"</li>
+                                <li>• Click "2025 SWE Scholarship Applications" (or current year)</li>
+                                <li>• Look for scholarships marked "HIGH SCHOOL" or "INCOMING COLLEGE"</li>
+                            </ul>
+                        </div>
+
+                        <div className="border-l-4 border-blue-600 bg-gray-50 p-4 rounded">
+                            <h4 className="font-bold text-blue-700 mb-2">STEP 2: Review EACH Scholarship's Requirements</h4>
+                            <p className="text-sm text-gray-700 mb-2">Each scholarship has slightly different requirements. Common ones:</p>
+                            <ul className="text-sm text-gray-700 space-y-1">
+                                <li>• <strong>GPA requirement:</strong> Usually 3.5+ (you're good ✓)</li>
+                                <li>• <strong>U.S. citizenship:</strong> Many require this</li>
+                                <li>• <strong>Gender:</strong> "Women in engineering" scholarships</li>
+                                <li>• <strong>Essay prompts:</strong> Usually 2-3 prompts (read carefully!)</li>
+                                <li>• <strong>Geographic region:</strong> Some scholarships are regional (check if NJ applies)</li>
+                            </ul>
+                        </div>
+
+                        <div className="border-l-4 border-green-600 bg-gray-50 p-4 rounded">
+                            <h4 className="font-bold text-green-700 mb-2">STEP 3: Create Your SWE Account</h4>
+                            <ul className="text-sm text-gray-700 space-y-1">
+                                <li>• Click "Create an Account" or "Log In"</li>
+                                <li>• Use your email address</li>
+                                <li>• Fill in basic profile info (name, HS, GPA, SAT, etc.)</li>
+                                <li>• This info will auto-fill future applications!</li>
+                            </ul>
+                        </div>
+
+                        <div className="border-l-4 border-purple-600 bg-gray-50 p-4 rounded">
+                            <h4 className="font-bold text-purple-700 mb-2">STEP 4: Start Your Application</h4>
+                            <ul className="text-sm text-gray-700 space-y-1">
+                                <li>• Click "Apply" on a scholarship that fits you</li>
+                                <li>• Confirm you meet requirements (GPA, citizenship, etc.)</li>
+                                <li>• Review all essay prompts CAREFULLY</li>
+                                <li>• Note the character limits or word counts</li>
+                            </ul>
+                        </div>
+
+                        <div className="border-l-4 border-yellow-600 bg-gray-50 p-4 rounded">
+                            <h4 className="font-bold text-yellow-700 mb-2">STEP 5: Fill Out The Form</h4>
+                            <ul className="text-sm text-gray-700 space-y-1">
+                                <li>• Education details (your school, GPA, SAT/ACT)</li>
+                                <li>• Contact information</li>
+                                <li>• Essay responses (see essay tips below)</li>
+                                <li>• Upload resume as a PDF</li>
+                            </ul>
+                        </div>
+
+                        <div className="border-l-4 border-red-600 bg-gray-50 p-4 rounded">
+                            <h4 className="font-bold text-red-700 mb-2">STEP 6: Arrange Recommendation Letters</h4>
+                            <ul className="text-sm text-gray-700 space-y-1">
+                                <li>• You'll get a section to "Request Letter of Recommendation"</li>
+                                <li>• Enter your recommender's email (math/science teacher)</li>
+                                <li>• SWE sends them a link to submit directly</li>
+                                <li>• Make sure they know the deadline!</li>
+                            </ul>
+                        </div>
+
+                        <div className="border-l-4 border-indigo-600 bg-gray-50 p-4 rounded">
+                            <h4 className="font-bold text-indigo-700 mb-2">STEP 7: Review & Submit</h4>
+                            <ul className="text-sm text-gray-700 space-y-1">
+                                <li>• Review every field for errors/typos</li>
+                                <li>• Make sure letters are uploaded (or pending)</li>
+                                <li>• Click "SUBMIT" before the deadline</li>
+                                <li>• Screenshot confirmation!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sweSpecific" class="tab-content">
+                    <h3 class="text-xl font-bold text-engineering mb-4">Specific SWE Scholarships to Apply For</h3>
+                    <p class="text-sm text-gray-700 mb-4"><em>Here are some high-value SWE scholarships to look for on their site:</em></p>
+                    
+                    <div class="space-y-3">
+                        <div class="border-l-4 border-green-600 bg-green-50 p-4 rounded">
+                            <h4 class="font-bold text-green-700 mb-1">🏆 Scholarships of Excellence (Multiple Levels)</h4>
+                            <p class="text-xs text-gray-700"><strong>Award:</strong> $1,500 - $10,000+ | <strong>Eligibility:</strong> High GPA, strong essays</p>
+                            <p class="text-xs text-gray-700 mt-1">→ Focus on: Academic rigor + leadership + passion for engineering</p>
+                        </div>
+
+                        <div class="border-l-4 border-blue-600 bg-blue-50 p-4 rounded">
+                            <h4 class="font-bold text-blue-700 mb-1">⭐ Judy Gaman Bryant Scholarship</h4>
+                            <p class="text-xs text-gray-700"><strong>Award:</strong> $1,500 | <strong>Focus:</strong> Women in engineering</p>
+                            <p class="text-xs text-gray-700 mt-1">→ Look for scholarships named after women engineers (they're everywhere!)</p>
+                        </div>
+
+                        <div class="border-l-4 border-purple-600 bg-purple-50 p-4 rounded">
+                            <h4 class="font-bold text-purple-700 mb-1">🌟 Freshman Scholarships</h4>
+                            <p class="text-xs text-gray-700"><strong>Award:</strong> $1,000 - $5,000+ | <strong>For:</strong> High school seniors going to college</p>
+                            <p class="text-xs text-gray-700 mt-1">→ APPLY! You're exactly who these target. Many are less competitive than named scholarships.</p>
+                        </div>
+
+                        <div class="border-l-4 border-yellow-600 bg-yellow-50 p-4 rounded">
+                            <h4 class="font-bold text-yellow-700 mb-1">💼 Corporate-Sponsored Scholarships</h4>
+                            <p class="text-xs text-gray-700"><strong>Sponsors:</strong> Intel, Lockheed Martin, Boeing, etc. | <strong>Award:</strong> $2,000 - $5,000+</p>
+                            <p class="text-xs text-gray-700 mt-1">→ Companies sponsor scholarships too! Often less competitive than pure merit awards.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-red-50 border border-red-300 p-4 rounded mt-4">
+                        <h4 class="font-bold text-red-800 mb-2">💡 PRO TIP</h4>
+                        <p class="text-sm text-gray-700"><strong>Apply to EVERY scholarship you're eligible for!</strong> The SWE site lists 50+ scholarships. Many have different judges, different prompts, and different competition levels. Even if a scholarship gives only $1,000, that's still $1,000 free money based on YOUR merit. And if you apply to 10 scholarships, you could win $5,000-$15,000+.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Essay Tips Modal -->
+    <div id="essayModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✍️ Scholarship Essay Tips & Samples</h2>
+                <span class="modal-close" onclick="closeModal('essayModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="tabs">
+                    <button class="tab-button active" onclick="openTab(event, 'essayStructure')">Essay Structure</button>
+                    <button class="tab-button" onclick="openTab(event, 'essayPrompts')">Common Prompts</button>
+                    <button class="tab-button" onclick="openTab(event, 'essaySamples')">Sample Essays</button>
+                </div>
+
+                <div id="essayStructure" class="tab-content active">
+                    <h3 class="text-xl font-bold text-engineering mb-4">The Winning Essay Formula</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded">
+                            <h4 class="font-bold text-blue-700 mb-2">📌 The Golden Rule</h4>
+                            <p class="text-sm text-gray-700"><strong>Show, don't tell.</strong></p>
+                            <p class="text-sm text-gray-700 mt-2"><em>Don't say:</em> "I'm passionate about engineering."</p>
+                            <p className="text-sm text-gray-700"><em>DO say:</em> "When I built my first Python program to predict weather patterns, I stayed up until 2 AM debugging. That's when I knew I wanted to be an engineer."</p>
+                        </div>
+
+                        <div className="space-y-3 mt-4">
+                            <h4 className="font-bold text-engineering mb-3">Standard Essay Structure (250-500 words):</h4>
+
+                            <div className="border-l-4 border-green-600 bg-green-50 p-3 rounded">
+                                <p className="font-bold text-green-700">PARAGRAPH 1: Hook (2-3 sentences)</p>
+                                <p className="text-sm text-gray-700 mt-1">Start with a story, question, or moment. Grab attention.</p>
+                                <p className="text-xs italic text-gray-600 mt-1">Example: "The day I realized 47 students had submitted the same code in our online Python class, I knew something had to change."</p>
+                            </div>
+
+                            <div className="border-l-4 border-blue-600 bg-blue-50 p-3 rounded">
+                                <p className="font-bold text-blue-700">PARAGRAPH 2: Context (3-4 sentences)</p>
+                                <p className="text-sm text-gray-700 mt-1">Explain the situation, challenge, or opportunity.</p>
+                                <p className="text-xs italic text-gray-600 mt-1">Example: "As President of Science Club, I noticed our CS students struggled with original thinking. So I partnered with my computer science teacher to launch 'Innovation Fridays.'"
+                                </p>
+                            </div>
+
+                            <div className="border-l-4 border-purple-600 bg-purple-50 p-3 rounded">
+                                <p className="font-bold text-purple-700">PARAGRAPH 3: Action (3-5 sentences)</p>
+                                <p className="text-sm text-gray-700 mt-1">What did you DO? Specific examples, numbers, results.</p>
+                                <p className="text-xs italic text-gray-600 mt-1">Example: "I created 4 real-world coding projects. By March, 35 students participated. Two projects won regional hackathons. One student told me, 'I went from copying code to writing my own app.'"
+                                </p>
+                            </div>
+
+                            <div className="border-l-4 border-yellow-600 bg-yellow-50 p-3 rounded">
+                                <p className="font-bold text-yellow-700">PARAGRAPH 4: Learning (2-3 sentences)</p>
+                                <p className="text-sm text-gray-700 mt-1">What did you learn? How did this shape you?</p>
+                                <p className="text-xs italic text-gray-600 mt-1">Example: "That experience taught me that engineering isn't just about solving problems—it's about empowering others to solve them too. U-M's collaborative approach aligns with my values."
+                                </p>
+                            </div>
+
+                            <div className="border-l-4 border-red-600 bg-red-50 p-3 rounded">
+                                <p className="font-bold text-red-700">PARAGRAPH 5: Why This Scholarship? (2 sentences) - IF ASKED</p>
+                                <p className="text-sm text-gray-700 mt-1">How will this award help you? Why do you deserve it?</p>
+                                <p className="text-xs italic text-gray-600 mt-1">Example: "This scholarship would allow me to focus on my engineering studies and continue mentoring the next generation of engineers. I'm committed to breaking barriers in STEM."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="essayPrompts" class="tab-content">
+                    <h3 class="text-xl font-bold text-engineering mb-4">Common Essay Prompts & How to Answer Them</h3>
+                    
+                    <div class="space-y-4">
+                        <div className="bg-gray-100 p-4 rounded border border-gray-400">
+                            <h4 className="font-bold text-gray-900 mb-2">PROMPT 1: "Tell us about yourself and your passion for engineering."</h4>
+                            <p className="text-sm text-gray-700"><strong>What they want:</strong> Your unique story + why engineering matters to YOU</p>
+                            <p className="text-sm text-gray-700 mt-2"><strong>How to answer:</strong></p>
+                            <ul className="text-sm text-gray-700 space-y-1 mt-1">
+                                <li>→ Tell a specific moment when you fell in love with engineering</li>
+                                <li>→ What problem do you want to solve?</li>
+                                <li>→ How does U-M fit your goals?</li>
+                            </ul>
+                        </div>
+
+                        <div className="bg-gray-100 p-4 rounded border border-gray-400">
+                            <h4 className="font-bold text-gray-900 mb-2">PROMPT 2: "Describe a challenge you overcame and what it taught you."</h4>
+                            <p className="text-sm text-gray-700"><strong>What they want:</strong> Resilience, problem-solving, growth mindset</p>
+                            <p className="text-sm text-gray-700 mt-2"><strong>How to answer:</strong></p>
+                            <ul className="text-sm text-gray-700 space-y-1 mt-1">
+                                <li>→ Real challenge (not "I got a B+")</li>
+                                <li>→ What you LEARNED (not just what you overcame)</li>
+                                <li>→ How it makes you a better engineer/student</li>
+                            </ul>
+                        </div>
+
+                        <div className="bg-gray-100 p-4 rounded border border-gray-400">
+                            <h4 className="font-bold text-gray-900 mb-2">PROMPT 3: "How will you contribute to diversity in engineering?"</h4>
+                            <p className="text-sm text-gray-700"><strong>What they want:</strong> Understanding of diversity + your unique perspective</p>
+                            <p className="text-sm text-gray-700 mt-2"><strong>How to answer:</strong></p>
+                            <ul className="text-sm text-gray-700 space-y-1 mt-1">
+                                <li>→ Your background/identity (gender, religion, socioeconomic, first-gen, etc.)</li>
+                                <li>→ How it shapes your perspective</li>
+                                <li>→ How you'll bring that perspective to U-M & engineering</li>
+                            </ul>
+                        </div>
+
+                        <div className="bg-yellow-50 border border-yellow-300 p-4 rounded">
+                            <h4 className="font-bold text-yellow-800 mb-2">🎯 UNIVERSAL TIPS FOR ALL ESSAYS</h4>
+                            <ul className="text-sm text-gray-700 space-y-1">
+                                <li>✓ <strong>Be specific.</strong> "I coded an app" not "I like computers."</li>
+                                <li>✓ <strong>Show impact.</strong> "35 students participated" not "I organized a club."</li>
+                                <li>✓ <strong>Use your voice.</strong> Write like YOU, not like ChatGPT.</li>
+                                <li>✓ <strong>Answer the prompt.</strong> Don't go off on tangents.</li>
+                                <li>✓ <strong>Proofread 3x.</strong> Grammar mistakes = instant loss of points.</li>
+                                <li>✓ <strong>Stay under word limit.</strong> Respect the constraints.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="essaySamples" class="tab-content">
+                    <h3 class="text-xl font-bold text-engineering mb-4">Sample Essay Response</h3>
+                    <p class="text-sm text-gray-700 mb-4"><em>This is a sample answer to: "Tell us about your passion for engineering"</em></p>
+                    
+                    <div class="bg-gray-100 p-6 rounded border border-gray-400 text-sm space-y-3">
+                        <p><strong>Sample Essay (450 words):</strong></p>
+
+                        <p>When my little brother asked me to "fix" his robot vacuum, I didn't just repair it—I reprogrammed it. Instead of random patterns, I taught it to clean in efficient, systematic sweeps. Watching it work was my "aha" moment: I could use math and code to solve real problems.</p>
+
+                        <p>That's when engineering clicked for me. Not as an abstract subject, but as a creative superpower.</p>
+
+                        <p>In AP Calculus, I realized every problem had a reason: rates of change model traffic flow, derivatives predict economic trends, integrals measure energy. My teacher showed us how calculus runs everything—from bridges to algorithms. In AP Physics, I built a catapult and calculated the exact angle to hit a target. In AP Computer Science, I coded a Python program to analyze weather patterns and predict storms 72 hours in advance.</p>
+
+                        <p>But my passion for engineering really grew when I became President of Science Club. We were 40 students interested in STEM, but we felt disconnected from real engineering. So I did something bold: I created "Innovation Fridays." Each week, I brought an engineering challenge—design a water filtration system, build a bridge that holds 50 pounds, code a chatbot. We didn't have fancy labs. We used duct tape, PVC pipe, and computers. Thirty-five students joined. Two projects won regional hackathons. One student told me, "I went from hating math to building an app. I'm going to be a software engineer because of you."</p>
+
+                        <p>That moment showed me something crucial: engineering isn't just about solving problems. It's about inspiring others to solve them too. It's about making STEM accessible, especially to underrepresented voices.</p>
+
+                        <p>I'm choosing U-M's College of Engineering because of its legacy of innovation and its commitment to collaborative learning. I want to study Computer Engineering, work on AI and sustainable technology, and mentor the next generation—especially young women in STEM. U-M's Engineering Learning Community and Design Innovation programs align perfectly with my goals.</p>
+
+                        <p>The robot vacuum sits on my desk as a reminder: Every problem is an opportunity. Every solution creates possibilities. Engineering is my way of building a better future—one calculation, one line of code, one mentored student at a time.</p>
+                    </div>
+
+                    <div className="bg-blue-50 border border-blue-300 p-4 rounded mt-4">
+                        <h4 className="font-bold text-blue-800 mb-2">📝 Why This Works:</h4>
+                        <ul className="text-sm text-gray-700 space-y-1">
+                            <li>✓ <strong>Specific examples:</strong> Robot vacuum, hackathons, student impact (numbers matter!)</li>
+                            <li>✓ <strong>Shows growth:</strong> Started with a repair, ended mentoring 35 students</li>
+                            <li>✓ <strong>Connects to scholarship values:</strong> Leadership, diversity, innovation</li>
+                            <li>✓ <strong>Personal voice:</strong> Not formulaic, genuine passion</li>
+                            <li>✓ <strong>Ends strong:</strong> Clear vision for the future + why U-M fits</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- U-M CoE Email Modal -->
+    <div id="umcoeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📧 Email Template: U-M CoE Scholarships</h2>
+                <span class="modal-close" onclick="closeModal('umcoeModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-xl font-bold text-engineering mb-4">Email to scholarships@engin.umich.edu</h3>
+                
+                <div class="bg-gray-100 p-6 rounded border border-gray-400 space-y-3 text-sm">
+                    <p><strong>Subject: Scholarship Consideration Request – Admitted Student (AP Scholar + Legacy)</strong></p>
+                    
+                    <p>Dear U-M College of Engineering Scholarships Office,</p>
+                    
+                    <p>I am writing to inquire about merit-based scholarship opportunities for the Class of 2029. I was recently admitted to the College of Engineering and am very excited about attending U-M.</p>
+                    
+                    <p><strong>My Profile:</strong></p>
+                    <p>• SAT: 1500 (Superscore)<br>
+                    • GPA: 4.65 (Weighted) | 3.98 (Unweighted)<br>
+                    • AP Scholar with Distinction (6 AP courses: Calculus BC, Physics C, Chemistry, Biology, Computer Science A, Statistics)<br>
+                    • Legacy: My parent graduated from U-M in [Year] (can provide details if needed)<br>
+                    • Leadership: President of Science Club, Science Olympiad Captain, Science Fair Finalist</p>
+                    
+                    <p><strong>My Interest in U-M:</strong></p>
+                    <p>I am passionate about engineering and excited about the College of Engineering's collaborative approach to innovation. I plan to pursue [Computer Engineering / Mechanical Engineering / etc. if known], with a focus on [sustainability / AI / renewable energy / etc.]. The College's Design Innovation program particularly excites me.</p>
+                    
+                    <p><strong>My Questions:</strong></p>
+                    <p>1. Are there named scholarships or merit-based awards that I should apply for beyond automatic consideration?<br>
+                    2. What is the timeline for scholarship decisions?<br>
+                    3. Are there any essays or additional materials I should submit to strengthen my application?<br>
+                    4. Are there legacy-specific scholarships I may be eligible for?</p>
+                    
+                    <p>I have attached my resume and high school transcript. I'm happy to provide any additional information you may need. Thank you for considering my application, and I look forward to hearing from you.</p>
+                    
+                    <p>Sincerely,<br>
+                    [Your Name]<br>
+                    [Your Email]<br>
+                    [Your Phone Number]</p>
+                </div>
+
+                <div class="bg-green-50 border border-green-300 p-4 rounded mt-4">
+                    <h4 className="font-bold text-green-800 mb-2">✅ Tips for This Email:</h4>
+                    <ul className="text-sm text-gray-700 space-y-1">
+                        <li>✓ Send within the next 2 weeks (sooner is better)</li>
+                        <li>✓ Attach your resume as a PDF</li>
+                        <li>✓ Be professional but conversational (not stiff)</li>
+                        <li>✓ Don't oversell – let your stats speak</li>
+                        <li>✓ Ask specific questions they can answer</li>
+                        <li>✓ Mention any unique circumstances (legacy, first-gen, etc.)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JCF Navigation Modal -->
+    <div id="jcfModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🗺️ How to Navigate JCF Scholarships</h2>
+                <span class="modal-close" onclick="closeModal('jcfModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-xl font-bold text-engineering mb-4">Jewish Community Foundation (Greater MetroWest NJ) Scholarships</h3>
+                
+                <div class="space-y-4">
+                    <div className="border-l-4 border-blue-600 bg-blue-50 p-4 rounded">
+                        <h4 className="font-bold text-blue-700 mb-2">STEP 1: Visit the Portal</h4>
+                        <p className="text-sm text-gray-700">Go to: <a href="https://www.jcfsnj.org/scholarships" target="_blank" className="text-blue-600 hover:underline">jcfsnj.org/scholarships</a></p>
+                        <p className="text-sm text-gray-700 mt-2">Click "Apply for Scholarships" or "Scholarship Application Portal"</p>
+                    </div>
+
+                    <div className="border-l-4 border-green-600 bg-green-50 p-4 rounded">
+                        <h4 className="font-bold text-green-700 mb-2">STEP 2: Browse the Funds</h4>
+                        <p className="text-sm text-gray-700"><strong>What you'll see:</strong> A list of 50+ named scholarship funds</p>
+                        <p className="text-sm text-gray-700 mt-2">Each fund has:</p>
+                        <ul className="text-sm text-gray-700 space-y-1 mt-1">
+                            <li>• Fund name (honoring a donor or family)</li>
+                            <li>• Award amount ($500-$5,000+)</li>
+                            <li>• Criteria ("For Jewish students" / "Attending college" / "Engineering focus")</li>
+                            <li>• Essay prompt or requirements</li>
+                        </ul>
+                    </div>
+
+                    <div className="border-l-4 border-purple-600 bg-purple-50 p-4 rounded">
+                        <h4 className="font-bold text-purple-700 mb-2">STEP 3: Find Scholarships You Qualify For</h4>
+                        <p className="text-sm text-gray-700">Filter or search for scholarships with criteria like:</p>
+                        <ul className="text-sm text-gray-700 space-y-1 mt-1">
+                            <li>• "For students attending college"</li>
+                            <li>• "Jewish students" (you qualify ✓)</li>
+                            <li>• "Science/Engineering focus" (some have this)</li>
+                            <li>• Geographic location (NJ-based)</li>
+                        </ul>
+                    </div>
+
+                    <div className="border-l-4 border-yellow-600 bg-yellow-50 p-4 rounded">
+                        <h4 className="font-bold text-yellow-700 mb-2">STEP 4: Understand the Essay Prompt</h4>
+                        <p className="text-sm text-gray-700">Most JCF scholarships ask one of these:</p>
+                        <ul className="text-sm text-gray-700 space-y-1 mt-1">
+                            <li>✓ "Tell us about yourself and your academic goals"</li>
+                            <li>✓ "How will you contribute to your community?"</li>
+                            <li>✓ "What does being Jewish mean to you?" (for some funds)</li>
+                            <li>✓ "Describe a challenge you overcame"</li>
+                        </ul>
+                        <p className="text-sm text-gray-700 mt-2"><strong>Essay length:</strong> Usually 250-500 words</p>
+                    </div>
+
+                    <div className="border-l-4 border-red-600 bg-red-50 p-4 rounded">
+                        <h4 className="font-bold text-red-700 mb-2">STEP 5: Apply to MULTIPLE Funds</h4>
+                        <p className="text-sm text-gray-700"><strong>KEY STRATEGY:</strong> Don't just apply to 1 or 2 scholarships!</p>
+                        <p className="text-sm text-gray-700 mt-2">Most JCF scholarships have the SAME or SIMILAR essay prompts. You can:</p>
+                        <ul className="text-sm text-gray-700 space-y-1 mt-1">
+                            <li>✓ Write ONE strong essay about your goals</li>
+                            <li>✓ Slightly customize it for each fund (add 1-2 personal details)</li>
+                            <li>✓ Apply to 5, 10, or 15+ scholarships!</li>
+                        </ul>
+                        <p className="text-sm text-gray-700 mt-2"><strong>Why?</strong> If you win even 3-4 of them, that's $2,000-$5,000! 🎉</p>
+                    </div>
+
+                    <div className="border-l-4 border-indigo-600 bg-indigo-50 p-4 rounded">
+                        <h4 className="font-bold text-indigo-700 mb-2">STEP 6: Submit Everything</h4>
+                        <p className="text-sm text-gray-700">For each application, upload:</p>
+                        <ul className="text-sm text-gray-700 space-y-1 mt-1">
+                            <li>✓ Your essay (250-500 words)</li>
+                            <li>✓ Transcript or proof of enrollment</li>
+                            <li>✓ Resume (optional but recommended)</li>
+                            <li>✓ Letter of recommendation (if required)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className="bg-blue-50 border border-blue-300 p-4 rounded mt-4">
+                    <h4 className="font-bold text-blue-800 mb-2">💡 Why JCF Is High ROI:</h4>
+                    <ul className="text-sm text-gray-700 space-y-1">
+                        <li>✓ <strong>Low competition:</strong> Only NJ-based + Jewish students apply (smaller pool than national scholarships)</li>
+                        <li>✓ <strong>Multiple funds:</strong> Can apply to 10+ different scholarships with similar essays</li>
+                        <li>✓ <strong>Reasonable amounts:</strong> $500-$2,000 per scholarship adds up fast</li>
+                        <li>✓ <strong>Community-driven:</strong> Judges know NJ/local Jewish community = your background is valued</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Modals & Tabs -->
+    <script>
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('show');
+        }
+
+        function openTab(evt, tabName) {
+            const tabs = evt.currentTarget.parentElement.nextElementSibling.parentElement.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            const buttons = evt.currentTarget.parentElement.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard: ' + text);
+            });
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+            }
+        }
+
+        // ===== LOCAL STORAGE: Save & Load Checkbox State =====
+        // Save checkbox state whenever it changes
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'checkbox') {
+                const checkboxStates = {};
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkboxStates[checkbox.id] = checkbox.checked;
+                });
+                localStorage.setItem('scholarshipCheckboxes', JSON.stringify(checkboxStates));
+                console.log('✓ Saved progress to browser');
+            }
+        });
+
+        // Load checkbox state when page opens
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('scholarshipCheckboxes');
+            if (saved) {
+                const checkboxStates = JSON.parse(saved);
+                Object.keys(checkboxStates).forEach(id => {
+                    const checkbox = document.getElementById(id);
+                    if (checkbox) {
+                        checkbox.checked = checkboxStates[id];
+                    }
+                });
+                console.log('✓ Loaded your saved progress!');
+            }
+        });
+
+        // Optional: Add a "Clear All Progress" button (for testing or reset)
+        function clearAllProgress() {
+            if (confirm('Are you sure? This will reset all checkboxes.')) {
+                localStorage.removeItem('scholarshipCheckboxes');
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                console.log('✓ All progress cleared');
+            }
+        }
+    </script>
+</body>
+</html>
