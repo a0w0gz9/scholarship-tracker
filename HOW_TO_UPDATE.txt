@@ -1,0 +1,115 @@
+===============================================================
+         HOW TO UPDATE THE SCHOLARSHIP DASHBOARD
+              Quick Reference Guide for Ali
+===============================================================
+
+WHEN YOU NEED TO UPDATE SOMETHING, JUST TELL COCO:
+
+"Update the dashboard - [what you want changed]"
+
+That's it! No complicated steps needed.
+
+===============================================================
+COMMON THINGS YOU CAN ASK FOR:
+===============================================================
+
+1. UPDATE DASHBOARD CONTENT (text, guides, info)
+   Examples:
+   - "Add more details about SWE scholarships"
+   - "Change the deadline for JCF scholarships to 3/15"
+   - "Fix the typo in the essay tips"
+
+2. ADD/REPLACE A PDF DOCUMENT
+   Examples:
+   - "Add the College Essays PDF to downloads"
+   - "Replace SAT 1420.pdf with a newer version"
+   - "Add Resume_Final.pdf to the download section"
+
+3. UPDATE THE GOOGLE SHEET LINK
+   Examples:
+   - "Update the Google Sheet link to [new URL]"
+   - "I created a new version of the tracker, here's the link"
+
+4. CHANGE THE DESIGN
+   Examples:
+   - "Make the buttons bigger"
+   - "Change the header color to blue"
+   - "Add a new section for essays"
+
+===============================================================
+HOW IT WORKS (BEHIND THE SCENES):
+===============================================================
+
+When you ask for an update:
+  1. Coco edits the files on your Mac
+  2. Coco pushes to GitHub
+  3. Website updates automatically (1-2 minutes)
+  4. Olivia sees changes on her phone/iPad instantly
+
+YOU DON'T NEED TO DO ANYTHING! Just tell Coco what to change.
+
+===============================================================
+IMPORTANT LINKS:
+===============================================================
+
+LIVE DASHBOARD:
+https://a0w0gz9.github.io/scholarship-tracker/scholarship-tracker.html
+
+GITHUB REPO:
+https://github.com/a0w0gz9/scholarship-tracker
+
+GOOGLE SHEET TRACKER:
+https://docs.google.com/spreadsheets/d/1PW-urbcox4AwsTtUUr-VeXu4FCZCZjSu/edit?usp=sharing
+
+===============================================================
+FILES ON GITHUB:
+===============================================================
+
+✓ Dashboard HTML file
+✓ All PDFs (Transcript, SAT scores, AP scores, etc.)
+✓ Excel tracker file
+✓ All backups are safe!
+
+===============================================================
+QUICK CHECKLIST:
+===============================================================
+
+If you want to:
+  ✓ Change text on the dashboard
+  ✓ Add a new PDF
+  ✓ Update a link
+  ✓ Change colors/design
+  ✓ Add a new section
+
+→ Just tell Coco and it's done!
+
+If you want to:
+  ✗ Change the Google Sheet
+  → Olivia updates that directly (it's her tracker)
+
+===============================================================
+FUTURE UPGRADES (IF NEEDED):
+===============================================================
+
+If you ever want to:
+  - Share progress across devices
+  - Add user login
+  - Create progress charts
+  - Build a database backend
+
+Just ask! Coco can help with any of that.
+
+===============================================================
+PERFECT. NOW YOU'RE READY!
+===============================================================
+
+Summary: Just tell Coco what to change!
+
+Examples:
+  "Update the dashboard - add a new scholarship"
+  "Update the dashboard - change the deadline date"
+  "Update the dashboard - add a new PDF to downloads"
+
+That's literally all you need to know. 🐕
+
+===============================================================
