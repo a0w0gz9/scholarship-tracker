@@ -1,0 +1,145 @@
+===============================================================
+          EXACTLY WHAT TO COPY & PASTE FOR COCO
+                    (Super Simple Version)
+===============================================================
+
+DO YOU NEED TO INCLUDE THE URL? 
+→ NO! I WILL LOOK IT UP IN THE PROJECT MAP
+
+DO YOU NEED TO SPECIFY WHICH GITHUB REPO?
+→ NO! I WILL KNOW FROM THE PROJECT MAP
+
+===============================================================
+              JUST SAY THIS FOR UPDATES:
+===============================================================
+
+COPY & PASTE ONE OF THESE FORMATS:
+
+1. SIMPLE FORMAT:
+   "Update the scholarship dashboard - [describe the change]"
+
+2. MORE SPECIFIC FORMAT:
+   "Update the scholarship dashboard:
+    - [Change 1]
+    - [Change 2]"
+
+3. IF YOU HAVE A LINK TO UPDATE:
+   "Update the scholarship dashboard - change the Google Sheet link to [paste URL here]"
+
+===============================================================
+                    REAL EXAMPLES:
+===============================================================
+
+EXAMPLE 1 (Simple change):
+  "Update the scholarship dashboard - change the SWE deadline to 3/15/2025"
+
+EXAMPLE 2 (Add something):
+  "Update the scholarship dashboard - add a new section for essay tips"
+
+EXAMPLE 3 (Multiple changes):
+  "Update the scholarship dashboard:
+   - Change the JCF deadline to 3/1/2025
+   - Make the download buttons bigger
+   - Add a note about SAT scores"
+
+EXAMPLE 4 (Replace a link):
+  "Update the scholarship dashboard - change the Google Sheet link to https://docs.google.com/spreadsheets/d/[NEW_ID]/edit"
+
+EXAMPLE 5 (Add a PDF):
+  "Update the scholarship dashboard - add the College_Essays.pdf to the downloads section"
+  (File will already be in /Users/a0w0gz9/Desktop/Code Puppy/Personal/)
+
+===============================================================
+            WHAT YOU DO NOT NEED TO INCLUDE:
+===============================================================
+
+✗ The file path (/Users/a0w0gz9/Desktop/Code Puppy/Personal/scholarship-tracker.html)
+✗ The GitHub repo URL (https://github.com/a0w0gz9/scholarship-tracker)
+✗ The live URL (https://a0w0gz9.github.io/scholarship-tracker/scholarship-tracker.html)
+✗ The git push command
+✗ Anything technical
+
+I WILL KNOW ALL OF THAT FROM THE PROJECT MAP!
+
+===============================================================
+                  WHAT YOU SHOULD INCLUDE:
+===============================================================
+
+✓ Which dashboard ("scholarship dashboard")
+✓ What you want to change ("change deadline to...", "add...", etc.)
+✓ Any URLs if you're replacing a link
+✓ Any file names if adding PDFs
+
+===============================================================
+                       TEMPLATES:
+===============================================================
+
+COPY & PASTE THESE WHEN YOU NEED TO UPDATE:
+
+--- TEMPLATE 1: Single Change ---
+"Update the scholarship dashboard - [what to change]"
+
+--- TEMPLATE 2: Multiple Changes ---
+"Update the scholarship dashboard:
+ - [Change 1]
+ - [Change 2]
+ - [Change 3]"
+
+--- TEMPLATE 3: Adding a Link ---
+"Update the scholarship dashboard - update the [link name] to [new URL]"
+
+--- TEMPLATE 4: Adding a PDF ---
+"Update the scholarship dashboard - add [filename.pdf] to the downloads"
+
+--- TEMPLATE 5: Design Change ---
+"Update the scholarship dashboard - [describe the visual change]"
+
+===============================================================
+                    AFTER YOU SEND MESSAGE:
+===============================================================
+
+COCO WILL:
+  1. Look at COCO_PROJECT_MAP.txt
+  2. Find the scholarship dashboard info
+  3. Edit the right file
+  4. Push to the right GitHub repo
+  5. Confirm it's live
+  6. Tell you when done!
+
+YOU WILL:
+  - Wait 1-2 minutes
+  - Refresh the dashboard
+  - See your changes!
+
+===============================================================
+                   THAT'S IT!
+===============================================================
+
+You never need to think about:
+  - File paths
+  - GitHub repos
+  - Git commands
+  - URLs
+  - Technical stuff
+
+JUST TELL ME WHAT TO CHANGE!
+
+Example:
+  "Update the scholarship dashboard - make the buttons blue"
+
+That's all you need! 🐕
+
+===============================================================
+SAVE THIS FILE AND USE IT EVERY TIME!
+===============================================================
+
+Location: /Users/a0w0gz9/Desktop/Code Puppy/Personal/ASK_COCO_TEMPLATE.txt
+
+When you need to update something:
+  1. Open this file
+  2. Pick a template
+  3. Fill in your change
+  4. Copy & paste to Coco
+  5. Done!
+
+===============================================================
